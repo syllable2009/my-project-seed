@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.HandlerMethod;
@@ -29,13 +27,15 @@ import com.company.project.core.ResultCodeEnum;
 import com.company.project.core.ServiceException;
 import com.company.project.utils.ObjectMapperSingleton;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Spring MVC 配置
  */
+@Slf4j
 @Configuration
 class MyWebMvcConfigurer implements WebMvcConfigurer {
 
-    private final Logger logger = LoggerFactory.getLogger(WebMvcConfigurer.class);
     @Value("${spring.profiles.active}")
     private String env;//当前激活的配置文件
 
@@ -61,12 +61,13 @@ class MyWebMvcConfigurer implements WebMvcConfigurer {
     public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
         exceptionResolvers.add(new HandlerExceptionResolver() {
             @Override
-            public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception e) {
+            public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response,
+                    Object handler, Exception e) {
                 Result result = new Result();
                 if (e instanceof ServiceException) {//业务失败的异常，如“账号或密码错误”
                     result.setCode(ResultCodeEnum.FAIL.getCode());
                     result.setMessage(e.getMessage());
-                    logger.info(e.getMessage());
+                    log.info("{}", e.getMessage());
                 } else if (e instanceof NoHandlerFoundException) {
                     result.setCode(ResultCodeEnum.NOT_FOUND.getCode());
                     result.setMessage("接口 [" + request.getRequestURI() + "] 不存在");
@@ -87,7 +88,7 @@ class MyWebMvcConfigurer implements WebMvcConfigurer {
                     } else {
                         message = e.getMessage();
                     }
-                    logger.error(message, e);
+                    log.error("{}{}", message, e);
                 }
                 responseResult(response, result);
                 return new ModelAndView();
@@ -109,13 +110,14 @@ class MyWebMvcConfigurer implements WebMvcConfigurer {
         if (!"dev".equals(env)) { //开发环境忽略签名认证
             registry.addInterceptor(new HandlerInterceptorAdapter() {
                 @Override
-                public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+                public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+                        throws Exception {
                     //验证签名
                     boolean pass = validateSign(request);
                     if (pass) {
                         return true;
                     } else {
-                        logger.warn("签名认证失败，请求接口：{}，请求IP：{}，请求参数：{}",
+                        log.warn("签名认证失败，请求接口：{}，请求IP：{}，请求参数：{}",
                                 request.getRequestURI(), getIpAddress(request),
                                 ObjectMapperSingleton.obj2string(request.getParameterMap()));
 
@@ -137,7 +139,7 @@ class MyWebMvcConfigurer implements WebMvcConfigurer {
         try {
             response.getWriter().write(ObjectMapperSingleton.obj2string(result));
         } catch (IOException ex) {
-            logger.error(ex.getMessage());
+            log.error("{}", ex.getMessage());
         }
     }
 
