@@ -107,7 +107,7 @@ public class CodeGenerator {
 
         CommentGeneratorConfiguration commentGeneratorConfiguration = new CommentGeneratorConfiguration();
         // 去除自动生成的注释
-        commentGeneratorConfiguration.addProperty("suppressAllComments", "true");
+        //        commentGeneratorConfiguration.addProperty("suppressAllComments", "true");
         context.setCommentGeneratorConfiguration(commentGeneratorConfiguration);
 
         JDBCConnectionConfiguration jdbcConnectionConfiguration = new JDBCConnectionConfiguration();
@@ -157,7 +157,6 @@ public class CodeGenerator {
         }
 
         tableConfiguration.setGeneratedKey(new GeneratedKey("id", "Mysql", true, null));
-
         context.addTableConfiguration(tableConfiguration);
 
         List<String> warnings;
