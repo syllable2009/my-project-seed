@@ -1,6 +1,6 @@
 package com.company.project.web.common;
 import com.company.project.core.Result;
-import com.company.project.core.ResultGenerator;
+import com.company.project.core.ResultUtils;
 import com.company.project.entity.common.User;
 import com.company.project.service.common.UserService;
 import com.github.pagehelper.PageHelper;
@@ -26,25 +26,25 @@ public class UserController {
     @PostMapping("/add")
     public Result add(User user) {
         userService.save(user);
-        return ResultGenerator.genSuccessResult();
+        return ResultUtils.success();
     }
 
     @PostMapping("/delete")
     public Result delete(@RequestParam Integer id) {
         userService.deleteById(id);
-        return ResultGenerator.genSuccessResult();
+        return ResultUtils.success();
     }
 
     @PostMapping("/update")
     public Result update(User user) {
         userService.update(user);
-        return ResultGenerator.genSuccessResult();
+        return ResultUtils.success();
     }
 
     @PostMapping("/detail")
     public Result detail(@RequestParam Integer id) {
         User user = userService.findById(id);
-        return ResultGenerator.genSuccessResult(user);
+        return ResultUtils.success(user);
     }
 
     @RequestMapping("/list")
@@ -52,6 +52,6 @@ public class UserController {
         PageHelper.startPage(page, size);
         List<User> list = userService.findAll();
         PageInfo pageInfo = new PageInfo(list);
-        return ResultGenerator.genSuccessResult(pageInfo);
+        return ResultUtils.success(pageInfo);
     }
 }

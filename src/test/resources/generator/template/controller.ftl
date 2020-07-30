@@ -1,6 +1,6 @@
 package ${basePackage}.web.${module};
 import ${basePackage}.core.Result;
-import ${basePackage}.core.ResultGenerator;
+import ${basePackage}.core.ResultUtils;
 import ${basePackage}.entity.${module}.${modelNameUpperCamel};
 import ${basePackage}.service.${module}.${modelNameUpperCamel}Service;
 import com.github.pagehelper.PageHelper;
@@ -26,25 +26,25 @@ public class ${modelNameUpperCamel}Controller {
     @PostMapping("/add")
     public Result add(${modelNameUpperCamel} ${modelNameLowerCamel}) {
         ${modelNameLowerCamel}Service.save(${modelNameLowerCamel});
-        return ResultGenerator.genSuccessResult();
+        return ResultUtils.success();
     }
 
     @PostMapping("/delete")
     public Result delete(@RequestParam Integer id) {
         ${modelNameLowerCamel}Service.deleteById(id);
-        return ResultGenerator.genSuccessResult();
+        return ResultUtils.success();
     }
 
     @PostMapping("/update")
     public Result update(${modelNameUpperCamel} ${modelNameLowerCamel}) {
         ${modelNameLowerCamel}Service.update(${modelNameLowerCamel});
-        return ResultGenerator.genSuccessResult();
+        return ResultUtils.success();
     }
 
     @PostMapping("/detail")
     public Result detail(@RequestParam Integer id) {
         ${modelNameUpperCamel} ${modelNameLowerCamel} = ${modelNameLowerCamel}Service.findById(id);
-        return ResultGenerator.genSuccessResult(${modelNameLowerCamel});
+        return ResultUtils.success(${modelNameLowerCamel});
     }
 
     @RequestMapping("/list")
@@ -52,6 +52,6 @@ public class ${modelNameUpperCamel}Controller {
         PageHelper.startPage(page, size);
         List<${modelNameUpperCamel}> list = ${modelNameLowerCamel}Service.findAll();
         PageInfo pageInfo = new PageInfo(list);
-        return ResultGenerator.genSuccessResult(pageInfo);
+        return ResultUtils.success(pageInfo);
     }
 }

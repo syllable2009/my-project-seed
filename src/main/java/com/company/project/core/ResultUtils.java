@@ -12,14 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
-
 import com.company.project.i18n.MessageSources;
 import com.company.project.utils.ObjectMapperSingleton;
 
 import lombok.Data;
 
 /**
- *
  * Created on 2019-03-04
  */
 @Data
