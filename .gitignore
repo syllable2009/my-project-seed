@@ -1,0 +1,70 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**
+!**/src/test/**
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+logs/
+
+### VS Code ###
+.vscode/
+
+### Mac ###
+.DS_Store
+
+### 本地配置
+recruit-campus-component/src/main/resources/generator/mybatis-generator.xml
+
+### 本地脚本
+rb
+php
+
+### jrebel
+**/rebel.xml
+
+### 分布式事务
+tmlog.lck
+tmlog.lck
+tmlog*.log
+transaction-logs/
+
+
+# tmp
+rust/
+class/
+recruit-campus-internal/src/main/java/com/kuaishou/is/helper/
+recruit-campus-internal/src/main/kotlin/
+recruit-campus-internal/src/main/scala/
+recruit-campus-internal/src/main/resources/application-zhirong.yml
+recruit-campus-internal/src/main/resources/bootstrap-zhirong.yml
+recruit-campus-internal/src/main/kotlin/
+*.c
+*.js
+
+recruit-campus-external/src/main/resources/application-zhirong.yml
+recruit-campus-external/src/main/resources/bootstrap-zhirong.yml
+data
+Dockerfile
+recruit-campus-external/src/main/java/com/kuaishou/is/bin/
