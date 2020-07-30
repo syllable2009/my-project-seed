@@ -155,7 +155,9 @@ public class CodeGenerator {
         if (StringUtils.isNotEmpty(modelName)) {
             tableConfiguration.setDomainObjectName(modelName);
         }
+
         tableConfiguration.setGeneratedKey(new GeneratedKey("id", "Mysql", true, null));
+
         context.addTableConfiguration(tableConfiguration);
 
         List<String> warnings;
