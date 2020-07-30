@@ -1,7 +1,7 @@
-package com.company.project.configurer;
+package com.company.project.config;
 
-import static com.company.project.core.ProjectConstant.MAPPER_INTERFACE_REFERENCE;
 import static com.company.project.core.ProjectConstant.BASE_PACKAGE;
+import static com.company.project.core.ProjectConstant.MAPPER_INTERFACE_REFERENCE;
 import static com.company.project.core.ProjectConstant.MODEL_PACKAGE;
 
 import java.util.Properties;
@@ -44,7 +44,7 @@ public class MybatisConfigurer {
         properties.setProperty("params", "count=countSql");
         properties.setProperty("supportMethodsArguments", "true");//支持通过 Mapper 接口参数来传递分页参数
         pageHelper.setProperties(properties);
-        
+
         //添加插件
         factory.setPlugins(new Interceptor[]{pageHelper});
 
