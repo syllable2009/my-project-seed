@@ -82,7 +82,7 @@ public class ResultUtils {
      * @param msg 失败信息
      * @return 失败返回结果
      */
-    private static <T> Result<T> failure(String msg) {
+    public static <T> Result<T> failure(String msg) {
         return Result.of(ResultCodeEnum.FAIL.getCode(), msg, null);
     }
 
