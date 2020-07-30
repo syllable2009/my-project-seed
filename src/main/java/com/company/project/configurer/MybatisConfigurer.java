@@ -1,7 +1,7 @@
 package com.company.project.configurer;
 
 import static com.company.project.core.ProjectConstant.MAPPER_INTERFACE_REFERENCE;
-import static com.company.project.core.ProjectConstant.MAPPER_PACKAGE;
+import static com.company.project.core.ProjectConstant.BASE_PACKAGE;
 import static com.company.project.core.ProjectConstant.MODEL_PACKAGE;
 
 import java.util.Properties;
@@ -35,11 +35,16 @@ public class MybatisConfigurer {
         //配置分页插件，详情请查阅官方文档
         PageHelper pageHelper = new PageHelper();
         Properties properties = new Properties();
-        properties.setProperty("pageSizeZero", "true");//分页尺寸为0时查询所有纪录不再执行分页
-        properties.setProperty("reasonable", "true");//页码<=0 查询第一页，页码>=总页数查询最后一页
+        properties.setProperty("pageSizeZero", "true");//当设置为true的时候，如果pagesize设置为0（或RowBounds的limit=0），就不执行分页，返回全部结果
+        properties.setProperty("offsetAsPageNum", "false");//设置为true时，会将RowBounds第一个參数offset当成pageNum页码使用
+        properties.setProperty("rowBoundsWithCount", "true");//设置为true时，使用RowBounds分页会进行count查询
+        properties.setProperty("reasonable", "false");//页码<=0 查询第一页，页码>=总页数查询最后一页
+        properties.setProperty("dialect", "mysql"); //配置mysql数据库的方言
+//        properties.setProperty("returnPageInfo", "none");
+        properties.setProperty("params", "count=countSql");
         properties.setProperty("supportMethodsArguments", "true");//支持通过 Mapper 接口参数来传递分页参数
         pageHelper.setProperties(properties);
-
+        
         //添加插件
         factory.setPlugins(new Interceptor[]{pageHelper});
 
@@ -53,7 +58,7 @@ public class MybatisConfigurer {
     public MapperScannerConfigurer mapperScannerConfigurer() {
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
         mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactoryBean");
-        mapperScannerConfigurer.setBasePackage(MAPPER_PACKAGE);
+        mapperScannerConfigurer.setBasePackage(BASE_PACKAGE + ".dao");
 
         //配置通用Mapper，详情请查阅官方文档
         Properties properties = new Properties();
