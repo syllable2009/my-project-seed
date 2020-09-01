@@ -5,6 +5,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -51,7 +53,7 @@ public abstract class AbstractService<T> implements Service<T> {
     }
 
     @Override
-    public T findById(Integer id) {
+    public T findById(@Nullable Integer id) {
         return mapper.selectByPrimaryKey(id);
     }
 
