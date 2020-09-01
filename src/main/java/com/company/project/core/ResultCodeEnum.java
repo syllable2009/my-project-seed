@@ -15,12 +15,11 @@ public enum ResultCodeEnum {
      * 错误码
      */
     SUCCESS(0, "success"),
-    FAIL(100, "fail"),
+    FAIL(1, "fail"),
     REQ_PARAM_ERROR(400, "request.param.error"),
     NOT_FOUND(404, "resource.not.found"),
-    INTERNAL_SERVER_ERROR(500, "server.error"),
+    SYSTEM_ERROR(500, "server.error"),
     UNAUTHORIZED(403, "");
-
     private Integer code;
     private String message;
 

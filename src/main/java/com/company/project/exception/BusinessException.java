@@ -12,6 +12,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class BusinessException extends RuntimeException {
 
+    private int code;
+    private String message;
+
     private BusinessErrorInterface businessErrorInterface;
 
     public BusinessException() {
@@ -34,6 +37,21 @@ public class BusinessException extends RuntimeException {
 
     public void setBusinessErrorInterface(BusinessErrorInterface businessErrorInterface) {
         this.businessErrorInterface = businessErrorInterface;
+    }
+
+    public BusinessException(int code, String message) {
+        super(message);
+        this.code = code;
+        this.message = message;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
     }
 
     public BusinessErrorInterface getBusinessErrorInterface() {

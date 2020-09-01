@@ -24,4 +24,6 @@ public class Result<T> {
     public String toString() {
         return ObjectMapperSingleton.obj2string(this);
     }
+
+
 }

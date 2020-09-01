@@ -4,22 +4,27 @@ package com.company.project.core;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.function.Supplier;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
+import com.company.project.exception.BusinessException;
 import com.company.project.i18n.MessageSources;
 import com.company.project.utils.ObjectMapperSingleton;
 
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created on 2019-03-04
  */
+@Slf4j
 @Data
 @Component
 public class ResultUtils {
@@ -104,7 +109,7 @@ public class ResultUtils {
      * @param msg 失败信息
      * @return 失败返回结果
      */
-    private static <T> Result failure(Integer code, String msg) {
+    private static <T> Result fail(Integer code, String msg) {
         return Result.of(code, msg, null);
     }
 
@@ -181,7 +186,7 @@ public class ResultUtils {
      */
     public static void responseError(int statusCode, int errorCode, String msg,
             HttpServletResponse response) throws IOException {
-        response(statusCode, ResultUtils.failure(errorCode, msg), response);
+        response(statusCode, ResultUtils.fail(errorCode, msg), response);
     }
 
     /**
@@ -210,4 +215,20 @@ public class ResultUtils {
         out.flush();
         out.close();
     }
+
+    public static <T> Result<T> toResult(Supplier<T> supplier) {
+        try {
+            return ResultUtils.success(supplier.get());
+        } catch (BusinessException e) {
+            log.info("business exception:{},{}", e.getCode(), e.getMessage());
+            return ResultUtils.fail(e.getCode(), e.getMessage());
+        } catch (DataAccessException e) {
+            log.error("database error", e);
+            return ResultUtils.fail(ResultCodeEnum.FAIL.getCode(), "system error.");
+        } catch (Exception e) {
+            log.error("unknown exception", e);
+            return ResultUtils.fail(ResultCodeEnum.SYSTEM_ERROR.getCode(), "system error.");
+        }
+    }
+
 }
